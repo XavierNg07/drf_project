@@ -16,8 +16,8 @@ def test_valid_movie_serializer():
 
 def test_invalid_movie_serializer():
     invalid_serializer_data = {
-        "title": 'Raising Arizona',
-        "genre": 'comedy'
+        'title': 'Raising Arizona',
+        'genre': 'comedy'
     }
     serializer = MovieSerializer(data=invalid_serializer_data)
     assert not serializer.is_valid()
