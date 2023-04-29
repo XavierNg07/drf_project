@@ -59,8 +59,8 @@ def test_add_movie_invalid_json_keys(client):
 
 
 @pytest.mark.django_db
-def test_get_single_movie(client):
-    movie = Movie.objects.create(title='Along with the Gods: The Two Worlds', genre='action', year='2017')
+def test_get_single_movie(client, add_movie):
+    movie = add_movie(title='Along with the Gods: The Two Worlds', genre='action', year='2017')
     res = client.get(f'/api/movies/{movie.id}/')
     assert res.status_code == 200
     assert res.data['title'] == 'Along with the Gods: The Two Worlds'
