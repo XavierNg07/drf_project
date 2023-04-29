@@ -8,6 +8,11 @@ from .models import Movie
 
 # Create your views here.
 class MovieList(APIView):
+    def get(self, request):
+        movies = Movie.objects.all()
+        serializer = MovieSerializer(movies, many=True)
+        return Response(serializer.data)
+
     def post(self, request):
         serializer = MovieSerializer(data=request.data)
         if serializer.is_valid():
