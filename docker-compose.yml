@@ -2,12 +2,18 @@ version: '3.8'
 
 services:
   movies:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
       - '8009:8000'
+    # The .env file feeds those environment variables only to your docker compose file,
+    # which in turn, can be passed to the containers as well.
+    # But the env_file option only passes those variables to the containers
+    # and NOT the docker compose file.
     env_file:
       - .env.dev
     depends_on:
@@ -16,10 +22,12 @@ services:
     image: postgres:15.2
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - '5432-5432'
     environment:
-      - POSTGRES_USER=movies
-      - POSTGRES_PASSWORD=movies
-      - POSTGRES_DB=movies_dev
+      POSTGRES_DB: ${SQL_DATABASE}
+      POSTGRES_USER: ${SQL_USER}
+      POSTGRES_PASSWORD: ${SQL_PASSWORD}
 
 # To persist the data beyond the life of the container we configured a volume
 volumes:

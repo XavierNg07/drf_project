@@ -20,12 +20,10 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     ports:
       - '5432-5432'
-    env_file:
-      - .env.prod
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
 # To persist the data beyond the life of the container we configured a volume
 volumes:
