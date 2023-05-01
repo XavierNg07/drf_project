@@ -5,7 +5,7 @@ services:
   - type: web
     name: movies
     env: docker
-    plan: individual
+    plan: free
     dockerCommand: ./Dockerfile.prod
     envVars:
       - key: DEBUG
