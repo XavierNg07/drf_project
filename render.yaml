@@ -1,0 +1,19 @@
+databases:
+  - name: movies-db
+
+services:
+  - type: web
+    name: movies
+    env: docker
+    dockerCommand: ./Dockerfile.prod
+    envVars:
+      - key: DEBUG
+        value: False
+      - key: SECRET_KEY
+        sync: false
+      - key: DJANGO_ALLOWED_HOSTS
+        sync: localhost 127.0.0.1 [::1]
+      - key: DATABASE_URL
+        fromDatabase:
+          name: movies-db
+          property: connectionString
