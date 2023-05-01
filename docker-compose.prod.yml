@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  movies:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    command: gunicorn drf_project.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - '8000:8000'
+    env_file:
+      - ./secrets/.env.prod
+    depends_on:
+      - movies-db
+  movies-db:
+    image: postgres:15.2
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - '5432-5432'
+    env_file:
+      - ./secrets/.env.prod
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+# To persist the data beyond the life of the container we configured a volume
+volumes:
+  postgres_data:
