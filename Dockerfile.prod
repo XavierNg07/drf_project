@@ -3,6 +3,8 @@ FROM python:3.11.3-slim-buster
 
 # set dynamic environment variables
 ARG SECRET_KEY
+ARG DEBUG
+ARG DJANGO_ALLOWED_HOSTS
 
 # set working directory
 WORKDIR /app
@@ -10,10 +12,9 @@ WORKDIR /app
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DEBUG False
-ENV DJANGO_ALLOWED_HOSTS localhost 127.0.0.1 [::1]
-ENV RENDER_EXTERNAL_HOSTNAME https://movies-srvc.onrender.com
 ENV SECRET_KEY $SECRET_KEY
+ENV DEBUG $DEBUG
+ENV DJANGO_ALLOWED_HOSTS $DJANGO_ALLOWED_HOSTS
 
 # install system dependencies
 RUN apt-get update \
