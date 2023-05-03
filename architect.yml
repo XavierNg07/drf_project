@@ -2,11 +2,11 @@ name: drf-project
 
 secrets:
   SECRET_KEY:
-    default: warning-override-for-production
+    required: true
   DJANGO_ALLOWED_HOSTS:
-    default: warning-override-for-production
+    required: true
   DATABASE_URL:
-    default: warning-override-for-production
+    required: true
 
 services:
   movies-db:
