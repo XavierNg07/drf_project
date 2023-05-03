@@ -71,7 +71,7 @@ def test_get_single_movie(client, add_movie):
 def test_get_all_movies(client, add_movie):
     movie_one = add_movie(title='The Big Lebowski', genre='comedy', year='1998')
     movie_two = add_movie(title='No Country for Old Men', genre='thriller', year='2007')
-    res = client.get(f'/api/movies/')
+    res = client.get('/api/movies/')
     assert res.status_code == 200
     assert res.data[0]['title'] == movie_one.title
     assert res.data[1]['title'] == movie_two.title
