@@ -1,8 +1,6 @@
 # pull official base image
 FROM python:3.11.3-slim-buster
 
-# set dynamic environment variables
-
 # set working directory
 WORKDIR /app
 
@@ -29,8 +27,6 @@ RUN python manage.py collectstatic --no-input
 # apply migrations to the database
 RUN python manage.py migrate
 
-# start the application with a Gunicorn server
-CMD ["gunicorn", "drf_project.wsgi:application", "--bind", "0.0.0.0:8000"]
 
 
 

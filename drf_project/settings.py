@@ -26,9 +26,6 @@ DEBUG = os.environ.get('DEBUG')
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(' ')
 
-if not DEBUG:
-    ALLOWED_HOSTS.append(os.environ.get('RENDER_EXTERNAL_HOSTNAME'))
-
 # Application definition
 
 INSTALLED_APPS = [

@@ -16,15 +16,5 @@ services:
       - movies-db
   movies-db:
     image: postgres:15.2
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
     ports:
       - '5432-5432'
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-
-# To persist the data beyond the life of the container we configured a volume
-volumes:
-  postgres_data:

@@ -1,0 +1,29 @@
+name: drf-project
+
+secrets:
+  SECRET_KEY:
+    default: warning-override-for-production
+  DJANGO_ALLOWED_HOSTS:
+    default: warning-override-for-production
+  DATABASE_URL:
+    default: warning-override-for-production
+
+services:
+  movies-db:
+    image: postgres:15.2
+    interfaces:
+      main: 5432
+  movies-srvc:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    command: gunicorn drf_project.wsgi:application --bind 0.0.0.0:8000
+    interfaces:
+      main: 8000
+    environment:
+      SECRET_KEY: ${{secrets.SECRET_KEY}}
+      DEBUG: 'False'
+      DJANGO_ALLOWED_HOSTS: ${{secrets.DJANGO_ALLOWED_HOSTS}}
+      DATABASE_URL: ${{secrets.DATABASE_URL}}
+    depends_on:
+      - movies-db
