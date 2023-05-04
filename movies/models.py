@@ -15,4 +15,4 @@ class Movie(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.title}'
+        return f"{self.title}"
