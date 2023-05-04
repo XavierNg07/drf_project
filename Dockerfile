@@ -15,15 +15,15 @@ RUN apt-get update \
 
 # install dependencies
 RUN pip install --upgrade pip
-COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+COPY ./requirements.txt /app/requirements.txt
+RUN pip install -r /app/requirements.txt
 
 # copy entrypoint.sh
 COPY ./entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
 # add app
-COPY . .
+COPY . /app
 
 # run entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]

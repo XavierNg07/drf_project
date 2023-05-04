@@ -6,8 +6,6 @@ services:
       context: .
       dockerfile: Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/app
     ports:
       - '8009:8000'
     # The .env file feeds those environment variables only to your docker compose file,
@@ -25,9 +23,9 @@ services:
     ports:
       - '5432-5432'
     environment:
-      POSTGRES_DB: ${SQL_DATABASE}
-      POSTGRES_USER: ${SQL_USER}
-      POSTGRES_PASSWORD: ${SQL_PASSWORD}
+      POSTGRES_DB: movies_dev
+      POSTGRES_USER: movies
+      POSTGRES_PASSWORD: movies
 
 # To persist the data beyond the life of the container we configured a volume
 volumes:
