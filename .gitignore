@@ -3,4 +3,5 @@ venv/
 *.sqlite3
 .idea/
 htmlcov/
-**/.env
+.env.dev
+.env.prod
