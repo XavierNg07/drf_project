@@ -8,7 +8,7 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV SECRET_KEY %^r)i!%l(pt%-23tv)hfgp2@eu$1$@tni9bt3*5gnbf%hfn07i%^r)i!%l(pt%-23tv)hfgp2@eu$1$@tni9bt3*5gnbf%hfn07i
-ENV DEBUG True
+ENV DEBUG False
 ENV DATABASE_URL postgresql://postgres:mqUJC4A90X7n1hyRGCnv@containers-us-west-5.railway.app:6988/railway
 
 # install system dependencies
