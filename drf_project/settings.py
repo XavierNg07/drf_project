@@ -29,6 +29,8 @@ DEBUG = os.environ.get("DEBUG", "") != "False"
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
 ALLOWED_HOSTS = ["drfproject-production.up.railway.app", "localhost", "127.0.0.1", "[::1]"]
 
+CSRF_TRUSTED_ORIGINS = ['https://drfproject-production.up.railway.app']
+
 # Application definition
 
 INSTALLED_APPS = [
