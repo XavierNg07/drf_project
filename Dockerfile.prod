@@ -1,15 +1,19 @@
 # pull official base image
 FROM python:3.11.3-slim-buster
 
+# set dynamic environment variables
+ARG SECRET_KEY %^r)i!%l(pt%-23tv)hfgp2@eu$1$@tni9bt3*5gnbf%hfn07i%^r)i!%l(pt%-23tv)hfgp2@eu$1$@tni9bt3*5gnbf%hfn07i
+ARG DATABASE_URL postgresql://postgres:mqUJC4A90X7n1hyRGCnv@containers-us-west-5.railway.app:6988/railway
+
 # set working directory
 WORKDIR /app
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV SECRET_KEY %^r)i!%l(pt%-23tv)hfgp2@eu$1$@tni9bt3*5gnbf%hfn07i%^r)i!%l(pt%-23tv)hfgp2@eu$1$@tni9bt3*5gnbf%hfn07i
+ENV SECRET_KEY $SECRET_KEY
 ENV DEBUG False
-ENV DATABASE_URL postgresql://postgres:mqUJC4A90X7n1hyRGCnv@containers-us-west-5.railway.app:6988/railway
+ENV DATABASE_URL $DATABASE_URL
 
 # install system dependencies
 RUN apt-get update \
