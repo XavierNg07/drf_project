@@ -7,7 +7,7 @@ from movies.views import MovieSerializer, MovieDetail, Movie
 def test_add_movie(client, monkeypatch):
     payload = {"title": "The Big Lebowski", "genre": "comedy", "year": "1998"}
 
-    def mock_create():
+    def mock_create(self, payload):
         return "The Big Lebowski"
 
     monkeypatch.setattr(MovieSerializer, "create", mock_create)
@@ -35,13 +35,38 @@ def test_add_movie_invalid_json_keys(client):
 def test_get_single_movie(client, monkeypatch):
     payload = {"title": "The Big Lebowski", "genre": "comedy", "year": "1998"}
 
+    def mock_get_object(self, pk):
+        return 1
+
+    monkeypatch.setattr(MovieDetail, "get_object", mock_get_object)
+    monkeypatch.setattr(MovieSerializer, "data", payload)
+
+    res = client.get("/api/movies/1/")
+    assert res.status_code == 200
+    assert res.data["title"] == "The Big Lebowski"
+
 
 def test_get_single_movie_incorrect_id(client):
-    pass
+    res = client.get("/api/movies/foo/")
+    assert res.status_code == 404
 
 
 def test_get_all_movies(client, monkeypatch):
-    pass
+    payload = [
+        {"title": "The Big Lebowski", "genre": "comedy", "year": "1998"},
+        {"title": "No Country for Old Men", "genre": "thriller", "year": "2007"},
+    ]
+
+    def mock_get_all_movies():
+        return payload
+
+    monkeypatch.setattr(Movie.objects, "all", mock_get_all_movies)
+    monkeypatch.setattr(MovieSerializer, "data", payload)
+
+    res = client.get("/api/movies/")
+    assert res.status_code == 200
+    assert res.data[0]["title"] == payload[0]["title"]
+    assert res.data[1]["title"] == payload[1]["title"]
 
 
 def test_remove_movie(client, monkeypatch):
