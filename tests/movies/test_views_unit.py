@@ -94,11 +94,31 @@ def test_remove_movie_incorrect_id(client, monkeypatch):
 
 
 def test_update_movie(client, monkeypatch):
-    pass
+    payload = {"title": "The Big Lebowski", "genre": "comedy", "year": "1997"}
+
+    def mock_get_object(self, pk):
+        return 1
+
+    def mock_update_object(self, movie_object, data):
+        return payload
+
+    monkeypatch.setattr(MovieDetail, "get_object", mock_get_object)
+    monkeypatch.setattr(MovieSerializer, "update", mock_update_object)
+
+    res = client.put("/api/movies/1/", payload, content_type="application/json", )
+    assert res.status_code == 200
+    assert res.data["title"] == payload["title"]
+    assert res.data["year"] == payload["year"]
 
 
 def test_update_movie_incorrect_id(client, monkeypatch):
-    pass
+    def mock_get_object(self, pk):
+        raise Http404
+
+    monkeypatch.setattr(MovieDetail, "get_object", mock_get_object)
+
+    resp = client.put("/api/movies/99/")
+    assert resp.status_code == 404
 
 
 @pytest.mark.parametrize(
@@ -109,4 +129,10 @@ def test_update_movie_incorrect_id(client, monkeypatch):
     ]
 )
 def test_update_movie_invalid_json(client, monkeypatch, payload):
-    pass
+    def mock_get_object(self, pk):
+        return 1
+
+    monkeypatch.setattr(MovieDetail, "get_object", mock_get_object)
+
+    resp = client.put("/api/movies/1/", payload, content_type="application/json",)
+    assert resp.status_code == 400
