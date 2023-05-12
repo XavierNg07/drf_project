@@ -73,3 +73,25 @@ def test_get_all_movies(client, add_movie):
     assert res.status_code == 200
     assert res.data[0]["title"] == movie_one.title
     assert res.data[1]["title"] == movie_two.title
+
+
+@pytest.mark.django_db
+def test_remove_movie(client, add_movie):
+    movie = add_movie(title="Along with the Gods: The Two Worlds", genre="action", year="2017")
+
+    res = client.get(f"/api/movies/{movie.id}/")
+    assert res.status_code == 200
+    assert res.data["title"] == "Along with the Gods: The Two Worlds"
+
+    res_two = client.delete(f"/api/movies/{movie.id}/")
+    assert res_two.status_code == 204
+
+    res_three = client.get("/api/movies/")
+    assert res_three.status_code == 200
+    assert len(res_three.data) == 0
+
+
+@pytest.mark.django_db
+def test_remove_movie_incorrect_id(client):
+    res = client.delete(f"/api/movies/99/")
+    assert res.status_code == 404

@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
     ports:
       - '8009:8000'
     # The .env file feeds those environment variables only to your docker compose file,
