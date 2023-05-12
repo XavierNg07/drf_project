@@ -34,6 +34,14 @@ class MovieDetail(APIView):
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
 
+    def put(self, request, pk):
+        movie = self.get_object(pk)
+        serializer = MovieSerializer(movie, request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def delete(self, request, pk):
         movie = self.get_object(pk)
         movie.delete()
