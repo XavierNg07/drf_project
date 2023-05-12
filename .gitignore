@@ -5,3 +5,4 @@ venv/
 htmlcov/
 .env.dev
 .env.prod
+.coverage

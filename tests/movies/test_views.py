@@ -61,7 +61,9 @@ def test_add_movie_invalid_json_keys(client):
 
 @pytest.mark.django_db
 def test_get_single_movie(client, add_movie):
-    movie = add_movie(title="Along with the Gods: The Two Worlds", genre="action", year="2017")
+    movie = add_movie(
+        title="Along with the Gods: The Two Worlds", genre="action", year="2017"
+    )
     res = client.get(f"/api/movies/{movie.id}/")
     assert res.status_code == 200
     assert res.data["title"] == "Along with the Gods: The Two Worlds"
@@ -79,7 +81,9 @@ def test_get_all_movies(client, add_movie):
 
 @pytest.mark.django_db
 def test_remove_movie(client, add_movie):
-    movie = add_movie(title="Along with the Gods: The Two Worlds", genre="action", year="2017")
+    movie = add_movie(
+        title="Along with the Gods: The Two Worlds", genre="action", year="2017"
+    )
 
     res = client.get(f"/api/movies/{movie.id}/")
     assert res.status_code == 200
@@ -95,20 +99,22 @@ def test_remove_movie(client, add_movie):
 
 @pytest.mark.django_db
 def test_remove_movie_incorrect_id(client):
-    res = client.delete(f"/api/movies/99/")
+    res = client.delete("/api/movies/99/")
     assert res.status_code == 404
 
 
 @pytest.mark.django_db
 def test_update_movie(client, add_movie):
-    movie = add_movie(title="Along with the Gods: The Two Worlds", genre="action", year="2017")
+    movie = add_movie(
+        title="Along with the Gods: The Two Worlds", genre="action", year="2017"
+    )
 
     res = client.put(
         f"/api/movies/{movie.id}/",
         {
             "title": "Along with the Gods: The Two Worlds",
             "genre": "action",
-            "year": "2018"
+            "year": "2018",
         },
         content_type="application/json",
     )
@@ -124,28 +130,24 @@ def test_update_movie(client, add_movie):
 
 @pytest.mark.django_db
 def test_update_movie_incorrect_id(client):
-    res = client.put(f"/api/movies/99/")
+    res = client.put("/api/movies/99/")
     assert res.status_code == 404
 
 
 @pytest.mark.django_db
-def test_update_movie_invalid_json(client, add_movie):
-    movie = add_movie(title="Along with the Gods: The Two Worlds", genre="action", year="2017")
-    res = client.put(
+@pytest.mark.parametrize(
+    "add_movie, payload",
+    [
+        ["add_movie", {}],
+        ["add_movie", {"title": "The Big Lebowski", "genre": "comedy"}],
+    ],
+    indirect=["add_movie"],
+)
+def test_update_movie_invalid_json(client, add_movie, payload):
+    movie = add_movie(title="The Big Lebowski", genre="comedy", year="1998")
+    resp = client.put(
         f"/api/movies/{movie.id}/",
-        {},
+        payload,
         content_type="application/json",
     )
-    assert res.status_code == 400
-
-
-@pytest.mark.django_db
-def test_update_movie_invalid_json_keys(client, add_movie):
-    movie = add_movie(title="Along with the Gods: The Two Worlds", genre="action", year="2017")
-
-    res = client.put(
-        f"/api/movies/{movie.id}/",
-        {"title": "Along with the Gods: The Two Worlds"},
-        content_type="application/json",
-    )
-    assert res.status_code == 400
+    assert resp.status_code == 400
