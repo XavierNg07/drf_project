@@ -25,6 +25,7 @@ schema_view = get_schema_view(
         title="Movies API",
         default_version="v1",
     ),
+    url="https://drfproject-production.up.railway.app/",
     public=True,
     permission_classes=[permissions.AllowAny],
 )
