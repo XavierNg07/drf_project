@@ -72,7 +72,7 @@ def test_get_all_movies(client, monkeypatch):
 def test_remove_movie(client, monkeypatch):
     def mock_get_object(self, pk):
         class Movie:
-            def delete(self):
+            def delete():
                 pass
 
         return Movie
@@ -105,7 +105,11 @@ def test_update_movie(client, monkeypatch):
     monkeypatch.setattr(MovieDetail, "get_object", mock_get_object)
     monkeypatch.setattr(MovieSerializer, "update", mock_update_object)
 
-    res = client.put("/api/movies/1/", payload, content_type="application/json", )
+    res = client.put(
+        "/api/movies/1/",
+        payload,
+        content_type="application/json",
+    )
     assert res.status_code == 200
     assert res.data["title"] == payload["title"]
     assert res.data["year"] == payload["year"]
@@ -122,11 +126,7 @@ def test_update_movie_incorrect_id(client, monkeypatch):
 
 
 @pytest.mark.parametrize(
-    "payload",
-    [
-        [{}],
-        [{"title": "The Big Lebowski", "genre": "comedy"}]
-    ]
+    "payload", [[{}], [{"title": "The Big Lebowski", "genre": "comedy"}]]
 )
 def test_update_movie_invalid_json(client, monkeypatch, payload):
     def mock_get_object(self, pk):
@@ -134,5 +134,9 @@ def test_update_movie_invalid_json(client, monkeypatch, payload):
 
     monkeypatch.setattr(MovieDetail, "get_object", mock_get_object)
 
-    resp = client.put("/api/movies/1/", payload, content_type="application/json",)
+    resp = client.put(
+        "/api/movies/1/",
+        payload,
+        content_type="application/json",
+    )
     assert resp.status_code == 400
