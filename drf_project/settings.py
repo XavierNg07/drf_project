@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "drf_yasg",
     "movies.apps.MoviesConfig",
 ]
 
@@ -156,3 +157,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # reference a User model
 AUTH_USER_MODEL = "movies.CustomUser"
+
+SWAGGER_SETTINGS = {"USE_SESSION_AUTH": False}
